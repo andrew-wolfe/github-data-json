@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ site.title }} - {{ site.desc }}</title>
+  <meta charset='utf-8'>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/css/data-json.css" media="screen"/>
+  <link rel="stylesheet" href="{{ site.baseurl }}/css/font-awesome.min.css">
+  <!--[if IE 7]>
+  <link rel="stylesheet" href="{{ site.baseurl }}/css/font-awesome-ie7.min.css">
+  <![endif]-->
+</head>
+
+<body>
+  <h1>{{ site.title }}</h1>
+  {{ content }}
+  <input id="user" name="user" type="text" />
+  <button id="submit" name="submit" value="Go Get It">Go Get It</button>
+
+  <hr>
+
+  <div class="hidden" id="json-container">
+    <i class="icon-copy icon-border pull-right" id="copy-it" name="copy-it" value="Copy It" data-clipboard-target="json"></i>
+    <textarea id="json" name="json"></textarea>
+  </div>
+
+  <script src="{{ site.baseurl }}/js/ZeroClipboard.min.js"></script>
+  <script src="{{ site.baseurl }}/js/jquery-1.9.1.min.js"></script>
+  <script src="{{ site.baseurl }}/js/data-json.js"></script>
+</body>
