@@ -30,6 +30,9 @@ $(document).ready(function() {
     
     var gh_api = "https://api.github.com";  // base url for github api
 
+    // clear the text area
+    $(gh_results).val('');
+
     // GET the list of repos
     $.ajax({
       async: false,
@@ -68,12 +71,15 @@ $(document).ready(function() {
         console.log(jqXHR, textStatus, error);
       }
     });
+
     // show the results
     $("#json-container").removeClass("hidden");
     if ($.trim($(gh_results).val()) == '') {
       $("#messages").text($("#messages").data("warningNoData"));
       $("#messages").removeClass("hidden");
       $(gh_results).val($("#messages").data("warningNoData"));
+    } else {
+      $("#messages").addClass("hidden");
     }
   });
 });
