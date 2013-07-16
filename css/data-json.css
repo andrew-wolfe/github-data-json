@@ -48,6 +48,7 @@ textarea {
   background-color: #f9ebb3;
   border-radius: 2px;
   display: inline-block;
+  font-size: 12px;
   font-weight: bold;
   padding: 3px 7px;
 }
