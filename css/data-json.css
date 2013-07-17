@@ -6,6 +6,10 @@ body {
   line-height: 24px;
   margin: 0 auto;
   padding: 0;
+  width: 800px;
+}
+#content {
+  margin: 0 auto;
   width: 400px;
 }
 h1 { font-family: "Droid Serif", Georgia; }
@@ -39,17 +43,16 @@ hr {
 }
 textarea {
   font-family: "Source Code Pro";
-  height: 400px;
+  height: 200px;
   margin-top: 5px;
-  padding: 10px;
-  width: 378px;
+  width: 788px;
 }
 .message {
   background-color: #f9ebb3;
   border-radius: 2px;
-  display: inline-block;
   font-size: 12px;
   font-weight: bold;
+  margin-top: 10px;
   padding: 3px 7px;
 }
 

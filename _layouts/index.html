@@ -14,16 +14,19 @@
 </head>
 
 <body>
-  <h1>{{ site.title }}</h1>
-  {{ content }}
-  <input id="user" name="user" type="text" />
-  <button id="submit" name="submit" value="Go Get It">Go Get It</button>
-  <div id="user-message" class="message hidden pull-right" data-warning-no-user="Enter a user."></div>
+  <div id="content">
+    <h1>{{ site.title }}</h1>
+    {{ content }}
+    <input id="user" name="user" type="text" />
+    <button id="submit" name="submit" value="Go Get It">Go Get It</button>
+    <div id="github-message" class="message hidden"  data-warning-no-user="Enter a user." data-warning-no-gh-user="No user found." data-warning-no-repos="No repos found." data-warning-no-data="No data.json found."></div>
+  </div>
+
   <hr>
 
   <div class="hidden" id="json-container">
     <i class="icon-copy icon-border pull-right" id="copy-it" name="copy-it" value="Copy It" data-clipboard-target="json"></i>
-    <div id="messages" class="message hidden" data-warning-no-flash="Flash required."  data-warning-wrong-flash="Flash 10.0.0+ required." data-success="Copied!" data-warning-no-data="No data.json found."></div>
+    <div id="copy-message" class="message hidden" data-warning-no-flash="Flash required."  data-warning-wrong-flash="Flash 10.0.0+ required." data-success="Copied!"></div>
     <textarea id="json" name="json"></textarea>
   </div>
 

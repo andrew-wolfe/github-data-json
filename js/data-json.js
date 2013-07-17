@@ -9,28 +9,28 @@ $(document).ready(function() {
   });
 
   clip.on('noFlash', function (client) {
-    $("#messages").text($("#messages").data("warningNoFlash"));
-    $("#messages").removeClass("hidden");
+    $("#copy-message").text($("#copy-message").data("warningNoFlash")).removeClass("hidden");
   });
 
   clip.on('wrongFlash', function (client, args) {
-    $("#messages").text($("#messages").data("warningWrongFlash"));
-    $("#messages").removeClass("hidden");
+    $("#copy-message").text($("#copy-message").data("warningWrongFlash")).removeClass("hidden");
   });
 
   clip.on('complete', function (client, args) {
-    $("#messages").text($("#messages").data("success"));
-    $("#messages").removeClass("hidden");
+    $("#copy-message").text($("#copy-message").data("success")).removeClass("hidden");
   });
 
   // github data.json files
   $("#submit").click(function(event) {
+    // always hide and clear the textarea and messages
+    $("#json-container").addClass("hidden");
+    $("#json").val('');
+    $("#github-message").addClass("hidden").text('');
+    $("#copy-message").text('').addClass("hidden");
+
     if ($.trim($("#user").val()) == '') {
       // show error, hide and clear text area
-      $("#user-message").text($("#user-message").data("warningNoUser"));
-      $("#user-message").removeClass("hidden");
-      $("#json-container").addClass("hidden");
-      $("#json").val('');
+      $("#github-message").text($("#github-message").data("warningNoUser")).removeClass("hidden");
     } else {
       var gh_user = $("#user").val();
       var gh_results = "#json";               // div to append results
@@ -39,8 +39,7 @@ $(document).ready(function() {
 
       // clear the text area
       $(gh_results).val('');
-      $("#user-message").addClass("hidden");
-      $("#messages").addClass("hidden");
+      $("#github-message").addClass("hidden");
 
       // GET the list of repos
       $.ajax({
@@ -49,47 +48,45 @@ $(document).ready(function() {
         type: "GET",
         url: gh_api + "/users/" + gh_user + "/repos", // api for repos
         success:function(repos) {
-          //for (i in repos) {
-          for (var i=0; i<2; i++) { // ***** USE TO TEST, LIMITS API CALLS
-
-            // output the repo name
-            //$(gh_results).val(gh_results.val+"<h1 class=\"gh-repo-name\">" + repos[i].name + "</h1>");
-
-            // GET the raw data.json file for each repo
-            $.ajax({
-              async: false,
-              headers: { 
-                Accept : "application/vnd.github.raw"
-              },
-              type: "GET",
-              url: gh_api + "/repos/" + gh_user + "/" + repos[i].name + "/contents/data.json", // api for data.json
-              success:function(datajson) {
-                if ($.trim($(gh_results).val()) != '') {
-                  $(gh_results).val(gh_results.val+datajson);
-                } else {
-                  $(gh_results).val(datajson);
+          if (typeof repos !== 'undefined' && repos.length > 0) {
+            //for (i in repos) {
+            for (var i=0; i<2; i++) { // ***** USE TO TEST, LIMITS API CALLS
+              // GET the raw data.json file for each repo
+              $.ajax({
+                async: false,
+                headers: { 
+                  Accept : "application/vnd.github.raw"
+                },
+                type: "GET",
+                url: gh_api + "/repos/" + gh_user + "/" + repos[i].name + "/contents/data.json", // api for data.json
+                success:function(datajson) {
+                  if ($.trim($(gh_results).val()) != '') {
+                    $(gh_results).val(gh_results.val+datajson);
+                  } else {
+                    $(gh_results).val(datajson);
+                  }
+                  // show the results
+                  $("#json-container").removeClass("hidden");
+                  $("#github-message").text('').addClass("hidden");
+                },
+                error: function(jqXHR, textStatus, error){
+                  console.log(jqXHR, textStatus, error);
+                  // we may have had success
+                  if ($.trim($(gh_results).val()) == '') {
+                    $("#github-message").text($("#github-message").data("warningNoData")).removeClass("hidden");
+                  }
                 }
-              },
-              error: function(jqXHR, textStatus, error){
-                console.log(jqXHR, textStatus, error);
-              }
-            });
-          }
+              });
+            } // end for
+          } else { // no repos
+            $("#github-message").text($("#github-message").data("warningNoRepos")).removeClass("hidden");
+          } // end if repos
         },
         error: function(jqXHR, textStatus, error){
+          $("#github-message").text($("#github-message").data("warningNoGhUser")).removeClass("hidden");
           console.log(jqXHR, textStatus, error);
         }
       });
-
-      // show the results
-      $("#json-container").removeClass("hidden");
-      if ($.trim($(gh_results).val()) == '') {
-        $("#messages").text($("#messages").data("warningNoData"));
-        $("#messages").removeClass("hidden");
-        $(gh_results).val($("#messages").data("warningNoData"));
-      } else {
-        $("#messages").addClass("hidden");
-      }
     } // end else (github user entered)
   });
 });
