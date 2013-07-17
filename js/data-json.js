@@ -94,8 +94,8 @@ $(document).ready(function() {
         $("#github-message").text('').addClass("hidden");
         $(gh_results).val("[" + $.trim(jsonstring.substring(0, jsonstring.length - 1)) + "]");
       }
-      $("#found").text(found.toString());
-      $("#notfound").text(notfound.toString());
+      $("#found").text(found.toString().replace(",", ", "));
+      $("#notfound").text(notfound.toString().replace(",", ", "));
     } // end else (github user entered)
   });
 });
