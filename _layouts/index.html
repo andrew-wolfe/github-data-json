@@ -19,12 +19,18 @@
     {{ content }}
     <input id="user" name="user" type="text" />
     <button id="submit" name="submit" value="Go Get It">Go Get It</button>
-    <div id="github-message" class="message hidden"  data-warning-no-user="Enter a user." data-warning-no-gh-user="No user found." data-warning-no-repos="No repos found." data-warning-no-data="No data.json found."></div>
+    <div>
+      <div id="github-message" class="message hidden"  data-warning-no-user="Enter a user." data-warning-no-gh-user="No user found." data-warning-no-repos="No repos found." data-warning-no-data="No data.json found."></div>
+    </div>
   </div>
 
   <hr>
 
   <div class="hidden" id="json-container">
+    <h5>Repos with data.json: </h5>
+    <div id="found"></div>
+    <h5>Repos with no data.json: </h5>
+    <div id="notfound"></div>
     <i class="icon-copy icon-border pull-right" id="copy-it" name="copy-it" value="Copy It" data-clipboard-target="json"></i>
     <div id="copy-message" class="message hidden" data-warning-no-flash="Flash required."  data-warning-wrong-flash="Flash 10.0.0+ required." data-success="Copied!"></div>
     <textarea id="json" name="json"></textarea>

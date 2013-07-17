@@ -37,6 +37,10 @@ $(document).ready(function() {
       
       var gh_api = "https://api.github.com";  // base url for github api
 
+      var jsonstring = '';
+      var found = new Array();
+      var notfound = new Array();
+
       // clear the text area
       $(gh_results).val('');
       $("#github-message").addClass("hidden");
@@ -49,8 +53,8 @@ $(document).ready(function() {
         url: gh_api + "/users/" + gh_user + "/repos", // api for repos
         success:function(repos) {
           if (typeof repos !== 'undefined' && repos.length > 0) {
-            //for (i in repos) {
-            for (var i=0; i<2; i++) { // ***** USE TO TEST, LIMITS API CALLS
+            for (i in repos) {
+           // for (var i=0; i<2; i++) { // ***** USE TO TEST, LIMITS API CALLS
               // GET the raw data.json file for each repo
               $.ajax({
                 async: false,
@@ -60,14 +64,10 @@ $(document).ready(function() {
                 type: "GET",
                 url: gh_api + "/repos/" + gh_user + "/" + repos[i].name + "/contents/data.json", // api for data.json
                 success:function(datajson) {
-                  if ($.trim($(gh_results).val()) != '') {
-                    $(gh_results).val(gh_results.val+datajson);
-                  } else {
-                    $(gh_results).val(datajson);
-                  }
-                  // show the results
-                  $("#json-container").removeClass("hidden");
-                  $("#github-message").text('').addClass("hidden");
+                  // remove brackets from result, []
+                  datajson = $.trim(datajson);
+                  jsonstring = jsonstring + $.trim(datajson.substring(1).substring(0, datajson.length - 2)) + ",";
+                  found.push(repos[i].name);
                 },
                 error: function(jqXHR, textStatus, error){
                   console.log(jqXHR, textStatus, error);
@@ -75,6 +75,7 @@ $(document).ready(function() {
                   if ($.trim($(gh_results).val()) == '') {
                     $("#github-message").text($("#github-message").data("warningNoData")).removeClass("hidden");
                   }
+                  notfound.push(repos[i].name);
                 }
               });
             } // end for
@@ -87,6 +88,14 @@ $(document).ready(function() {
           console.log(jqXHR, textStatus, error);
         }
       });
+      // show the results
+      if (jsonstring.length > 0) {
+        $("#json-container").removeClass("hidden");
+        $("#github-message").text('').addClass("hidden");
+        $(gh_results).val("[" + $.trim(jsonstring.substring(0, jsonstring.length - 1)) + "]");
+      }
+      $("#found").text(found.toString());
+      $("#notfound").text(notfound.toString());
     } // end else (github user entered)
   });
 });
