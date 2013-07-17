@@ -86,6 +86,9 @@ $(document).ready(function() {
         error: function(jqXHR, textStatus, error){
           $("#github-message").text($("#github-message").data("warningNoGhUser")).removeClass("hidden");
           console.log(jqXHR, textStatus, error);
+          if (textStatus.toLowerCase() == 'error') {
+            $("#github-message").text($("#github-message").data("warningGithubError"))
+          }
         }
       });
       // show the results
